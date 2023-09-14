@@ -3,7 +3,8 @@ package customer
 import "gorm.io/gorm"
 
 type Repository interface {
-	FindAllByUser(UserID uint) (Customer, error)
+	FindAll() ([]Customer, error)
+	FindAllByUser(UserID uint) ([]Customer, error)
 	FindByID(ID int) (Customer, error)
 	Create(customer Customer) (Customer, error)
 	Update(customer Customer) (Customer, error)
@@ -17,8 +18,16 @@ func NewRepository(db *gorm.DB) *repository{
 	return &repository{db}
 }
 
-func (r *repository) FindAllByUser(UserID uint) (Customer, error) {
-	var customer Customer
+func (r *repository) FindAll() ([]Customer, error){
+	var customers []Customer
+
+	err := r.db.Find(&customers).Error
+
+	return customers, err
+}
+
+func (r *repository) FindAllByUser(UserID uint) ([]Customer, error) {
+	var customer []Customer
 	err := r.db.Where("user_id = ?", UserID).Find(&customer).Error
 	return customer, err
 }

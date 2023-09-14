@@ -1,6 +1,7 @@
 package customer
 
 type Service interface{
+	FindAll(UserID uint) ([]Customer, error)
 	FindByID(ID int) (Customer, error)
 	Create(customerRequest CustomerRequest, UserID uint) (Customer, error)
 	Update(ID int, customerRequest CustomerRequest) (Customer, error)
@@ -12,6 +13,11 @@ type service struct {
 
 func NewService(repository Repository) *service{
 	return &service{repository}
+}
+
+func (s *service) FindAll(UserID uint) ([]Customer, error) {
+	customers, err := s.repository.FindAllByUser(UserID)
+	return customers, err
 }
 
 func (s *service) FindByID(ID int) (Customer, error) {

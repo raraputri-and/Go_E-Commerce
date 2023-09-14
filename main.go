@@ -49,6 +49,7 @@ func main() {
 	// CUSTOMER
 	routerV1Customer := routerV1.Group("/customer", middleware.RequireAuth)
 
+	routerV1Customer.GET("", customerHandler.GetCustomers)
 	routerV1Customer.GET("/:id", customerHandler.GetCustomer)
 	routerV1Customer.POST("", customerHandler.PostCustomerHandler)
 	routerV1Customer.PUT("/:id", customerHandler.UpdateCustomerHandler)

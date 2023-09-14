@@ -20,6 +20,31 @@ func NewCustomerHandler(service customer.Service) *customerHandler {
 	return &customerHandler{service}
 }
 
+func (h *customerHandler) GetCustomers(c *gin.Context) {
+	jwtClaims, _ := c.Get("jwtClaims")
+	claims, _ := jwtClaims.(jwt.MapClaims)
+	userID, _ := claims["sub"].(float64)
+	
+	customers, err := h.customerService.FindAll(uint(userID))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"errors": err,
+		})
+		return
+	}
+
+	var customersResponse []customer.CustomerResponse
+
+	for _, c := range customers {
+		customerResponse := customer.ConvertToCustomerResponse(c)
+		customersResponse = append(customersResponse, customerResponse)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": customersResponse,
+	})
+}
+
 func (h *customerHandler) GetCustomer(c *gin.Context) {
 	ID, _ := strconv.Atoi(c.Param("id"))
 

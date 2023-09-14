@@ -18,7 +18,7 @@ func NewService(repository Repository) *service {
 	return &service{repository}
 }
 
-func (s *service) FindALL(CustomerID uint) ([]Product, error) {
+func (s *service) FindAll(CustomerID uint) ([]Product, error) {
 	products, err := s.repository.FindAllByCustomer(CustomerID)
 	return products, err
 }

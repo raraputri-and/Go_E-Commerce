@@ -34,7 +34,7 @@ func (r *repository) FindByID(ID int) (Product, error) {
 	return product, err
 }
 
-func (r *repository) FindAllByCutomer(CustomerID uint) ([]Product, error) {
+func (r *repository) FindAllByCustomer(CustomerID uint) ([]Product, error) {
 	var products []Product
 
 	err := r.db.Where("customer_id = ?", CustomerID).Find(&products).Error

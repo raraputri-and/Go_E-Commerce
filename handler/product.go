@@ -63,30 +63,34 @@ func (h *productHandler) PostProductHandler(c *gin.Context) {
 	})
 }
 
-// func (h *productHandler) GetProducts(c *gin.Context) {
-// 	products, err := h.productService.FindAll(uint(customer))
+func (h *productHandler) GetProducts(c *gin.Context) {
+	jwtClaims, _ := c.Get("jwtClaims")
+	claims, _ := jwtClaims.(jwt.MapClaims)
+	customerID, _ := claims["sub"].(float64)
 
-// 	if err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{
-// 			"error": err.Error(),
-// 		})
-// 		return
-// 	}
+	products, err := h.productService.FindAll(uint(customerID))
 
-// 	var productResponses []product.ProductResponse
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
 
-// 	for _, b := range products {
+	var productResponses []product.ProductResponse
 
-// 		// COBA NEW CODE FOR THIS METHOD
-// 		productResponses = append(productResponses, product.ConvertToProductResponse(b))
+	for _, b := range products {
 
-// 		// productResponse := product.ConvertToProductResponse(b)
-// 		// productResponses = append(productResponses, productResponse)
-// 	}
-// 	c.JSON(http.StatusOK, gin.H{
-// 		"data": products,
-// 	})
-// }
+		// COBA NEW CODE FOR THIS METHOD
+		productResponses = append(productResponses, product.ConvertToProductResponse(b))
+
+		// productResponse := product.ConvertToProductResponse(b)
+		// productResponses = append(productResponses, productResponse)
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"data": products,
+	})
+}
 
 func (h *productHandler) GetProduct(c *gin.Context) {
 	ID, _ := strconv.Atoi(c.Param("id"))

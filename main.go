@@ -43,7 +43,11 @@ func main() {
 
 	routerV1 := router.Group("/v1")
 
+	routerV1Customer.GET("/:id", customerHandler.GetCustomer)
+
 	routerV1Customer.POST("", customerHandler.PostCustomerHandler)
+
+	routerV1Customer.PUT("/:id", customerHandler.UpdateCustomerHandler)
 
 	routerV1.POST("/signup", userHandler.Signup)
 

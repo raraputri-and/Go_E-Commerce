@@ -9,5 +9,5 @@ type Product struct{
 	Price int
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	UserID uint
+	CustomerID uint
 }

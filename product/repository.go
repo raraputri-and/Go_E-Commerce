@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type Repository interface {
 	FindAll() ([]Product, error)
 	FindByID(ID int) (Product, error)
-	FindAllByUser(UserID uint) ([]Product, error)
+	FindAllByCustomer(CustomerID uint) ([]Product, error)
 	Create(product Product) (Product, error)
 	Update(product Product) (Product, error)
 	Delete(product Product) (Product, error)
@@ -34,10 +34,10 @@ func (r *repository) FindByID(ID int) (Product, error) {
 	return product, err
 }
 
-func (r *repository) FindAllByUser(UserID uint) ([]Product, error) {
+func (r *repository) FindAllByCutomer(CustomerID uint) ([]Product, error) {
 	var products []Product
 
-	err := r.db.Where("user_id = ?", UserID).Find(&products).Error
+	err := r.db.Where("customer_id = ?", CustomerID).Find(&products).Error
 	return products, err
 }
 

@@ -2,10 +2,10 @@ package product
 
 type Service interface {
 	// FindALL() ([]Product, error)
-	FindAll(UserID uint) ([]Product, error)
+	FindAll(CustomerID uint) ([]Product, error)
 	FindByID(ID int) (Product, error)
 	// Create(productRequest ProductRequest) (Product, error)
-	Create(productRequest ProductRequest, UserID uint) (Product, error)
+	Create(productRequest ProductRequest, CustomerID uint) (Product, error)
 	Update(ID int, productRequest ProductRequest) (Product, error)
 	Delete(ID int) (Product, error)
 }
@@ -18,8 +18,8 @@ func NewService(repository Repository) *service {
 	return &service{repository}
 }
 
-func (s *service) FindALL(UserID uint) ([]Product, error) {
-	products, err := s.repository.FindAllByUser(UserID)
+func (s *service) FindALL(CustomerID uint) ([]Product, error) {
+	products, err := s.repository.FindAllByCustomer(CustomerID)
 	return products, err
 }
 
@@ -29,12 +29,12 @@ func (s *service) FindByID(ID int) (Product, error) {
 	return product, err
 }
 
-func (s *service) Create(productRequest ProductRequest, UserID uint) (Product, error) {
+func (s *service) Create(productRequest ProductRequest, CustomerID uint) (Product, error) {
 	product := Product{
 		Name:        productRequest.Name,
 		Description: productRequest.Description,
 		Price:       productRequest.Price,
-		UserID:      UserID}
+		CustomerID:  CustomerID}
 
 	newProduct, err := s.repository.Create(product)
 	return newProduct, err

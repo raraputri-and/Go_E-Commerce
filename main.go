@@ -61,6 +61,7 @@ func main() {
 	routerV1Product.POST("", productHandler.PostProductHandler)
 	routerV1Product.PUT("/:id", productHandler.UpdateProductHandler)
 	routerV1Product.DELETE("/:id", productHandler.DeleteProduct)
+	routerV1Product.GET("/search", productHandler.SearchByName)
 
 	// USER LOGIN
 	routerV1.POST("/signup", userHandler.Signup)

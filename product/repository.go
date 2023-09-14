@@ -6,6 +6,7 @@ type Repository interface {
 	FindAll() ([]Product, error)
 	FindByID(ID int) (Product, error)
 	FindAllByCustomer(CustomerID uint) ([]Product, error)
+	SearchByName(CustomerID uint, name string) ([]Product, error)
 	Create(product Product) (Product, error)
 	Update(product Product) (Product, error)
 	Delete(product Product) (Product, error)
@@ -54,4 +55,11 @@ func (r *repository) Update(product Product) (Product, error) {
 func (r *repository) Delete(product Product) (Product, error) {
 	err := r.db.Delete(&product).Error
 	return product, err
+}
+
+func (r *repository) SearchByName(CustomerID uint, name string) ([]Product, error) {
+	var products []Product
+
+	err := r.db.Where("customer_id = ? and name like ?",CustomerID, "%"+name+"%",).Find(&products).Error
+	return products, err
 }

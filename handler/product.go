@@ -169,3 +169,33 @@ func (h *productHandler) DeleteProduct(c *gin.Context) {
 		"data": productResponse,
 	})
 }
+
+func (h *productHandler) SearchByName(c *gin.Context) {
+	jwtClaims, _ := c.Get("jwtClaims")
+	claims, _ := jwtClaims.(jwt.MapClaims)
+	customerID, _ := claims["sub"].(float64)
+	name := c.Query("name")
+
+	products, err := h.productService.SearchByName(uint(customerID),string(name))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	var productResponses []product.ProductResponse
+
+	for _, b := range products {
+
+		// COBA NEW CODE FOR THIS METHOD
+		productResponses = append(productResponses, product.ConvertToProductResponse(b))
+
+		// productResponse := product.ConvertToProductResponse(b)
+		// productResponses = append(productResponses, productResponse)
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"data": products,
+	})
+}

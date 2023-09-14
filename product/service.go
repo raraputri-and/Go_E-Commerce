@@ -4,6 +4,7 @@ type Service interface {
 	// FindALL() ([]Product, error)
 	FindAll(CustomerID uint) ([]Product, error)
 	FindByID(ID int) (Product, error)
+	SearchByName(CustomerID uint, name string) ([]Product, error)
 	// Create(productRequest ProductRequest) (Product, error)
 	Create(productRequest ProductRequest, CustomerID uint) (Product, error)
 	Update(ID int, productRequest ProductRequest) (Product, error)
@@ -64,4 +65,9 @@ func (s *service) Delete(ID int) (Product, error) {
 	_, err = s.repository.Delete(product)
 
 	return product, err
+}
+
+func (s *service) SearchByName(CustomerID uint, name string) ([]Product, error) {
+	products, err := s.repository.SearchByName(CustomerID, name)
+	return products, err
 }

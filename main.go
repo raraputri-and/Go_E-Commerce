@@ -39,9 +39,9 @@ func main() {
 
 	router := gin.Default()
 
-	routerV1Customer := router.Group("/customer", middleware.RequireAuth)
-
 	routerV1 := router.Group("/v1")
+
+	routerV1Customer := routerV1.Group("/customer", middleware.RequireAuth)
 
 	routerV1Customer.GET("/:id", customerHandler.GetCustomer)
 

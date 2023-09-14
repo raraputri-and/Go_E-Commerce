@@ -9,5 +9,5 @@ type Customer struct {
 	ID   uint   `gorm:"ForeignKey:UserID"`
 	Name string `gorm:"size:10"`
 	// Product []product.Product
-	UserID uint
+	UserID uint `gorm:"unique"`
 }

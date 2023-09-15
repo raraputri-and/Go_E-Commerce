@@ -3,7 +3,7 @@ package customer
 type Service interface{
 	FindAll(UserID uint) ([]Customer, error)
 	FindByID(ID int) (Customer, error)
-	Create(customerRequest CustomerRequest, UserID uint) (Customer, error)
+	Create(ID uint, customerRequest CustomerRequest, UserID uint) (Customer, error)
 	Update(ID int, customerRequest CustomerRequest) (Customer, error)
 	Delete(ID int) (Customer, error)
 }
@@ -26,8 +26,9 @@ func (s *service) FindByID(ID int) (Customer, error) {
 	return customer, err
 }
 
-func (s *service) Create(customerRequest CustomerRequest, UserID uint) (Customer, error) {
+func (s *service) Create(ID uint, customerRequest CustomerRequest, UserID uint) (Customer, error) {
 	customer := Customer {
+		ID: UserID,
 		Name: customerRequest.Name,
 		UserID: UserID,
 	}

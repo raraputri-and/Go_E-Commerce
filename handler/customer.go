@@ -90,8 +90,9 @@ func (h *customerHandler) PostCustomerHandler(c *gin.Context) {
 	jwtClaims, _ := c.Get("jwtClaims")
 	claims, _ := jwtClaims.(jwt.MapClaims)
 	userID, _ := claims["sub"].(float64)
+	ID, _ := claims["sub"].(float64)
 
-	customer, err := h.customerService.Create(customerRequest, uint(userID))
+	customer, err := h.customerService.Create(uint(ID),customerRequest, uint(userID))
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

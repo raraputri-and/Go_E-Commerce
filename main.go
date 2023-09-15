@@ -53,6 +53,7 @@ func main() {
 	routerV1Customer.GET("/:id", customerHandler.GetCustomer)
 	routerV1Customer.POST("", customerHandler.PostCustomerHandler)
 	routerV1Customer.PUT("/:id", customerHandler.UpdateCustomerHandler)
+	routerV1Customer.DELETE("/:id", customerHandler.DeleteCustomer)
 
 	// PRODUCT
 	routerV1Product := routerV1.Group("/product", middleware.RequireAuth)

@@ -146,3 +146,20 @@ func (h *customerHandler) UpdateCustomerHandler(c *gin.Context){
 		"data": customerResponse,
 	})
 }
+
+func (h *customerHandler) DeleteCustomer(c *gin.Context) {
+	ID, _ := strconv.Atoi(c.Param("id"))
+	b, err := h.customerService.Delete(ID)
+	customerResponse := customer.ConvertToCustomerResponse(b)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": customerResponse,
+	})
+}

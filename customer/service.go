@@ -5,6 +5,7 @@ type Service interface{
 	FindByID(ID int) (Customer, error)
 	Create(customerRequest CustomerRequest, UserID uint) (Customer, error)
 	Update(ID int, customerRequest CustomerRequest) (Customer, error)
+	Delete(ID int) (Customer, error)
 }
 
 type service struct {
@@ -44,4 +45,11 @@ func (s *service) Update(ID int, customerRequest CustomerRequest) (Customer, err
 
 	newCustomer, err := s.repository.Update(customer)
 	return newCustomer, err
+}
+
+func (s *service) Delete(ID int) (Customer, error) {
+	customer, err := s.repository.FindByID(ID)
+	_, err = s.repository.Delete(customer)
+
+	return customer, err
 }

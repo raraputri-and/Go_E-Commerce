@@ -8,6 +8,7 @@ type Repository interface {
 	FindByID(ID int) (Customer, error)
 	Create(customer Customer) (Customer, error)
 	Update(customer Customer) (Customer, error)
+	Delete(customer Customer) (Customer, error)
 }
 
 type repository struct {
@@ -49,5 +50,10 @@ func (r *repository) Create(customer Customer) (Customer, error) {
 func (r *repository) Update(customer Customer) (Customer, error) {
 	err := r.db.Save(&customer).Error
 
+	return customer, err
+}
+
+func (r *repository) Delete(customer Customer) (Customer, error) {
+	err := r.db.Delete(&customer).Error
 	return customer, err
 }
